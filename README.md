@@ -112,6 +112,7 @@ contrib/download_prerequisites
 ```
 sudo mkdir -p /opt/cross-pi-gcc
 sudo chown $USER /opt/cross-pi-gcc
+sudo chmod -R 777 /opt/cross-pi-gcc/
 export PATH=/opt/cross-pi-gcc/bin:$PATH
 ```
 Откройте ~/.bashrc в редакторе nano.
