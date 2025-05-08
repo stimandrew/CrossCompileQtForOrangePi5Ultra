@@ -301,7 +301,11 @@ python3 sysroot-relativelinks.py rpi-sysroot
 ```
 cd $HOME/qt6/pi-build
 cmake ../src/qt-everywhere-src-6.5.5/ -GNinja -DCMAKE_BUILD_TYPE=Release -DQT_FEATURE_opengles2=ON -DQT_FEATURE_opengles3=ON -DQT_BUILD_EXAMPLES=OFF -DQT_BUILD_TESTS=OFF -DQT_HOST_PATH=$HOME/qt6/host -DCMAKE_STAGING_PREFIX=$HOME/qt6/pi -DCMAKE_INSTALL_PREFIX=/usr/local/qt6 -DCMAKE_TOOLCHAIN_FILE=$HOME/qt6/toolchain.cmake -DQT_QMAKE_TARGET_MKSPEC=linux-aarch64-gnu-g++ -DQT_FEATURE_eglfs=ON -DQT_FEATURE_xcb=OFF -DLLVM_DIR=/usr/lib/llvm-14/lib/cmake/llvm -DClang_DIR=/usr/lib/llvm-14/lib/cmake/clang -DBUILD_qtwebengine=OFF -DQT_FEATURE_dbus=OFF -DBUILD_qtmultimedia=OFF
+```
+```
 cmake --build . --parallel 8
+```
+```
 cmake --install .
 ```
 Отправьте двоичные файлы в rpi. **Вам следует изменить следующие команды в соответствии с вашими потребностями.**
