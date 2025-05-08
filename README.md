@@ -38,7 +38,7 @@ gcc --version
 ld --version
 ldd --version
 ```
-![image](https://github.com/user-attachments/assets/29c687d8-a53b-4f16-b9b9-9abac9b376b5)
+![image](https://github.com/user-attachments/assets/ff4e9bbe-cbc5-4265-afdf-84c302dc64b3)
 
 Откройте ~/.bashrc в редакторе nano.
 ```
