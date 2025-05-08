@@ -205,10 +205,10 @@ cd ~
 mkdir rpi-sysroot rpi-sysroot/usr rpi-sysroot/opt
 mkdir qt6 qt6/host qt6/pi qt6/host-build qt6/pi-build qt6/src
 ```
-Скачать исходный код QtBase
+Скачать исходный код Qt
 ```
 cd ~/qt6/src
-tar xf ~/Загрузки/qtbase-everywhere-src-6.5.5.tar.xz
+tar xf ~/Загрузки/qt-everywhere-src-6.5.5.tar.xz
 ```
 ### Сборка Qt6 для Хост машины
 ```
