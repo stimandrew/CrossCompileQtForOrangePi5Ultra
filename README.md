@@ -74,9 +74,13 @@ git clone https://github.com/Kitware/CMake.git
 cd CMake
 ./bootstrap && make -j8&& sudo make install
 ```
-![image](https://github.com/MuyePan/CrossCompileQtForRpi/assets/136073506/e11f4e6c-a4c0-4f03-86dc-b6d463bab80b)
+![image](https://github.com/user-attachments/assets/7f4975c1-2169-42c0-b2db-a46436c7e813)
 
 Папка CMake больше не нужна. Вы можете удалить ее.
+```
+cd ~
+sudo rm -r /Cmake
+```
 
 ## Создайте gcc как кросс-компилятор
 Загрузите необходимый исходный код. ** Вам следует изменить следующие команды в соответствии с вашими потребностями.**
