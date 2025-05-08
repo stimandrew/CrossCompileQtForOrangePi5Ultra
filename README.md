@@ -109,6 +109,18 @@ sudo mkdir -p /opt/cross-pi-gcc
 sudo chown $USER /opt/cross-pi-gcc
 export PATH=/opt/cross-pi-gcc/bin:$PATH
 ```
+Откройте ~/.bashrc в редакторе nano.
+```
+nano ~/.bashrc
+```
+Добавьте следующий фрагмент кода в конец файла ~/.bashrc.
+```
+export PATH=/opt/cross-pi-gcc/bin:$PATH
+```
+Обновите внесенные изменения.
+```
+source ~/.bashrc
+```
 Скопируйте заголовки ядра в указанную выше папку.
 ```
 cd ~/gcc_all
