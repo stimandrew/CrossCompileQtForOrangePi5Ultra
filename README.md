@@ -96,9 +96,16 @@ make ARCH=arm64 INSTALL_HDR_PATH=/opt/cross-pi-gcc/aarch64-linux-gnu headers_ins
 ```
 cd ~/gcc_all
 mkdir build-binutils && cd build-binutils
-../binutils-2.38/configure --prefix=/opt/cross-pi-gcc --target=aarch64-linux-gnu --with-arch=armv8 --disable-multilib
-make -j 8
-make install
+../binutils-2.38/configure \
+    --prefix=/opt/cross-pi-gcc \
+    --target=aarch64-linux-gnu \
+    --with-arch=armv8-a+crc+crypto \
+    --with-tune=cortex-a76 \
+    --with-fpu=neon-fp-armv8 \
+    --disable-multilib \
+    --disable-werror
+make -j$(nproc)
+sudo make install
 ```
 Редактировать gcc-11.4.0/libsanitizer/asan/asan_linux.cpp. Добавьте следующий фрагмент кода.
 ```
