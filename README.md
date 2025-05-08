@@ -33,8 +33,12 @@ sudo mkdir /opt/vc
 sudo chmod 777 /usr/local/bin
 ```
 Запомните версии gcc (11.4.0), ld(2.38) и ldd (2.35). Исходный код той же версии следует загрузить для последующей сборки кросс-компилятора.
-
-![image](https://github.com/MuyePan/CrossCompileQtForRpi/assets/136073506/ba2f1848-0c5c-426d-8d3f-1420931637bd)
+```
+gcc --version
+ld --version
+ldd --version
+```
+![image](https://github.com/user-attachments/assets/29c687d8-a53b-4f16-b9b9-9abac9b376b5)
 
 Откройте ~/.bashrc в редакторе nano.
 ```
