@@ -32,6 +32,10 @@ sudo chmod 777 /usr/local/bin
 
 ![image](https://github.com/MuyePan/CrossCompileQtForRpi/assets/136073506/ba2f1848-0c5c-426d-8d3f-1420931637bd)
 
+Откройте ~/.bashrc в редакторе nano.
+```
+nano ~/.bashrc
+```
 Добавьте следующий фрагмент кода в конец файла ~/.bashrc.
 ```
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/qt6/lib/
@@ -40,6 +44,11 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/qt6/lib/
 ```
 source ~/.bashrc
 ```
+Разрешить orangepi использовать sudo rsync без пароля
+```
+echo "orangepi ALL=(ALL) NOPASSWD: /usr/bin/rsync" | sudo tee -a /etc/sudoers
+```
+
 # Подготовьте Хост машину
 Обновите систему.
 ```
