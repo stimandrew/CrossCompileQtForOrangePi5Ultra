@@ -90,14 +90,15 @@ ls -l
 * binutils 2.38(ld version)
 * glibc 2.35(ldd version)
 ```
-```
 cd ~
 mkdir gcc_all && cd gcc_all
 wget https://ftpmirror.gnu.org/binutils/binutils-2.38.tar.bz2
 tar xf binutils-2.38.tar.bz2
-``````
+```
+```
 wget https://ftpmirror.gnu.org/glibc/glibc-2.35.tar.bz2
 tar xf glibc-2.35.tar.bz2
+```
 ```
 wget https://ftpmirror.gnu.org/gcc/gcc-11.4.0/gcc-11.4.0.tar.gz
 git clone --depth=1 https://github.com/raspberrypi/linux
