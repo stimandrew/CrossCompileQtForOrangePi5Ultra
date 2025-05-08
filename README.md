@@ -22,6 +22,7 @@ sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev libx11-dev fr
 Создайте папку для установки qt6.
 ```
 sudo mkdir /usr/local/qt6
+sudo mkdir /opt/vc
 ```
 Предоставьте полный доступ к папке, используемой для развертывания, из Qt Creator. 
 ```
@@ -39,7 +40,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/qt6/lib/
 ```
 source ~/.bashrc
 ```
-# Подготовить Хост машину
+# Подготовьте Хост машину
 Обновите систему.
 ```
 sudo apt update
