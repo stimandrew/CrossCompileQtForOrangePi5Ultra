@@ -314,6 +314,9 @@ rsync -avz --rsync-path="sudo rsync" $HOME/qt6/pi/* orangepi@192.168.0.121:/usr/
 ```
 ## С помощью Qt Creator
 Set up **Compilers**.
+```
+sudo dpkg -i ~/Загрузки/qtcreator-linux-x64-14.0.2.deb
+```
 ![image](https://github.com/MuyePan/CrossCompileQtForRpi/assets/136073506/e98645c4-cf99-45e3-a8b4-ecc0899d6fa0)
 
 Настройте **Debuggers**.
