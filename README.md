@@ -79,7 +79,8 @@ cd CMake
 Папка CMake больше не нужна. Вы можете удалить ее.
 ```
 cd ~
-sudo rm -r /Cmake
+sudo rm -r CMake
+ls -l
 ```
 
 ## Создайте gcc как кросс-компилятор
