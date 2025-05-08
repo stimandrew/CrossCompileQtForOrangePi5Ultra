@@ -214,7 +214,11 @@ tar xf ~/Загрузки/qt-everywhere-src-6.5.5.tar.xz
 ```
 cd $HOME/qt6/host-build/
 cmake ../src/qt-everywhere-src-6.5.5/ -GNinja -DCMAKE_BUILD_TYPE=Release -DQT_BUILD_EXAMPLES=OFF -DQT_BUILD_TESTS=OFF -DBUILD_qtwebengine=OFF  -DCMAKE_INSTALL_PREFIX=$HOME/qt6/host
+```
+```
 cmake --build . --parallel 8
+```
+```
 cmake --install .
 ```
 Двоичные файлы будут находиться в $HOME/qt6/host
