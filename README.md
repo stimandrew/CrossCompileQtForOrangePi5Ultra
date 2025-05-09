@@ -8,7 +8,7 @@
 # Подготовьте RPI
 Подключитесь к Orange Pi 5 Ultra через терминал хост машины по протоколу ssh (используйте свое имя устройства и свой ip адрес, если они отличаются от текущих).
 ```
-ssh -p 22 orangepi@192.168.0.121
+ssh -p 22 ab@192.168.0.121
 ```
 Установите последнюю версию 64-разрядной ОС Raspberry Pi с настольным компьютером и обновите систему.
 ```
@@ -260,7 +260,11 @@ set(QT_COMPILER_FLAGS_RELEASE "-O2 -pipe")
 set(QT_LINKER_FLAGS "-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -Wl,-rpath-link=${TARGET_SYSROOT}/usr/lib/${TARGET_ARCHITECTURE} -Wl,-rpath-link=$HOME/qt6/pi/lib")
 
 # Указываем путь, где искать библиотеки (включая libgstphotography-1.0.so)
-link_directories("/home/ab/rpi-sysroot/usr/lib/aarch64-linux-gnu")
+link_directories(
+"/home/ab/rpi-sysroot/usr/lib/aarch64-linux-gnu"
+"/home/ab/rpi-sysroot/usr/lib/aarch64-linux-gnu/pulseaudio"
+)
+
 
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
@@ -272,7 +276,10 @@ set(CMAKE_BUILD_RPATH ${TARGET_SYSROOT})
 # Добавляем путь поиска библиотек и саму библиотеку
 add_link_options(
     "-L/home/ab/rpi-sysroot/usr/lib/aarch64-linux-gnu"
+    "-L/home/ab/rpi-sysroot/usr/lib/aarch64-linux-gnu/pulseaudio"
     "-lgstphotography-1.0"
+    "-lpulse"
+    "-lpulsecommon-15.99"
 )
 
 include(CMakeInitializeConfigs)
@@ -297,6 +304,8 @@ function(cmake_initialize_per_config_variable _PREFIX _DOCSTRING)
 
   _cmake_initialize_per_config_variable(${ARGV})
 endfunction()
+
+
 
 set(XCB_PATH_VARIABLE ${TARGET_SYSROOT})
 
@@ -326,6 +335,7 @@ set(XCB_XCB_LIBRARY ${XCB_PATH_VARIABLE}/usr/lib/${TARGET_ARCHITECTURE}/libxcb.s
 
 list(APPEND CMAKE_LIBRARY_PATH ${CMAKE_SYSROOT}/usr/lib/${TARGET_ARCHITECTURE})
 list(APPEND CMAKE_PREFIX_PATH "/usr/lib/${TARGET_ARCHITECTURE}/cmake")
+
 ```
 Исправьте абсолютные символические ссылки
 ```
@@ -347,7 +357,7 @@ cmake --install .
 ```
 Отправьте двоичные файлы в rpi. **Вам следует изменить следующие команды в соответствии с вашими потребностями.**
 ```
-rsync -avz --rsync-path="sudo rsync" $HOME/qt6/pi/* orangepi@192.168.0.121:/usr/local/qt6
+rsync -avz --rsync-path="sudo rsync" $HOME/qt6/pi/* ab@192.168.0.121:/usr/local/qt6
 ```
 ## С помощью Qt Creator
 Set up **Compilers**.
