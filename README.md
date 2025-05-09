@@ -226,10 +226,10 @@ cmake --install .
 скопируйте и вставьте несколько папок из rpi с помощью rsync через SSH. **Вам следует изменить следующие команды в соответствии с вашими потребностями.**
 ```
 cd ~
-rsync -avz --rsync-path="sudo rsync" orangepi@192.168.0.121:/usr/include rpi-sysroot/usr
-rsync -avz --rsync-path="sudo rsync" orangepi@192.168.0.121:/lib rpi-sysroot
-rsync -avz --rsync-path="sudo rsync" orangepi@192.168.0.121:/usr/lib rpi-sysroot/usr 
-rsync -avz --rsync-path="sudo rsync" orangepi@192.168.0.121:/opt/vc rpi-sysroot/opt
+rsync -avz --rsync-path="sudo rsync" ab@192.168.0.121:/usr/include rpi-sysroot/usr
+rsync -avz --rsync-path="sudo rsync" ab@192.168.0.121:/lib rpi-sysroot
+rsync -avz --rsync-path="sudo rsync" ab@192.168.0.121:/usr/lib rpi-sysroot/usr 
+rsync -avz --rsync-path="sudo rsync" ab@192.168.0.121:/opt/vc rpi-sysroot/opt
 ```
 Создайте файл с именем toolchain.cmake в файле $HOME/qt6.
 ```
