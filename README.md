@@ -236,59 +236,96 @@ rsync -avz --rsync-path="sudo rsync" orangepi@192.168.0.121:/opt/vc rpi-sysroot/
 cmake_minimum_required(VERSION 3.18)
 include_guard(GLOBAL)
 
-### 1. Исправление архитектуры и системных настроек ###
 set(CMAKE_SYSTEM_NAME Linux)
-set(CMAKE_SYSTEM_PROCESSOR aarch64)  # Было 'arm' - исправлено на aarch64 для RK3588
+set(CMAKE_SYSTEM_PROCESSOR aarch64)
 
-# Пути для Orange Pi 5 Ultra
+# You should change location of sysroot to your needs.
 set(TARGET_SYSROOT /home/ab/rpi-sysroot)
 set(TARGET_ARCHITECTURE aarch64-linux-gnu)
 set(CMAKE_SYSROOT ${TARGET_SYSROOT})
 
-### 2. Настройки компилятора ###
+set(ENV{PKG_CONFIG_PATH} $PKG_CONFIG_PATH:${CMAKE_SYSROOT}/usr/lib/${TARGET_ARCHITECTURE}/pkgconfig)
+set(ENV{PKG_CONFIG_LIBDIR} /usr/lib/pkgconfig:/usr/share/pkgconfig/:${TARGET_SYSROOT}/usr/lib/${TARGET_ARCHITECTURE}/pkgconfig:${TARGET_SYSROOT}/usr/lib/pkgconfig)
+set(ENV{PKG_CONFIG_SYSROOT_DIR} ${CMAKE_SYSROOT})
+
 set(CMAKE_C_COMPILER /opt/cross-pi-gcc/bin/${TARGET_ARCHITECTURE}-gcc)
 set(CMAKE_CXX_COMPILER /opt/cross-pi-gcc/bin/${TARGET_ARCHITECTURE}-g++)
 
-# Флаги для ARMv8 (Cortex-A76/A55)
-set(QT_COMPILER_FLAGS "-march=armv8-a+crc+crypto -mtune=cortex-a76 -mfpu=neon-fp-armv8")
-set(QT_COMPILER_FLAGS_RELEASE "-O3 -pipe -fomit-frame-pointer")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -isystem=/usr/include -isystem=/usr/local/include -isystem=/usr/include/${TARGET_ARCHITECTURE}")
+set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}")
 
-### 3. Графический стек (Mali-G610) ###
-set(EGL_INCLUDE_DIR ${CMAKE_SYSROOT}/usr/include)
-set(EGL_LIBRARY ${CMAKE_SYSROOT}/usr/lib/${TARGET_ARCHITECTURE}/libEGL.so)
-set(GLESv2_LIBRARY ${CMAKE_SYSROOT}/usr/lib/${TARGET_ARCHITECTURE}/libGLESv2.so)
-set(GLESv3_LIBRARY ${GLESv2_LIBRARY})  # Для совместимости
+set(QT_COMPILER_FLAGS "-march=armv8-a")
+set(QT_COMPILER_FLAGS_RELEASE "-O2 -pipe")
 
-# Vulkan для RK3588
-set(VULKAN_INCLUDE_DIR ${CMAKE_SYSROOT}/usr/include/vulkan)
-set(VULKAN_LIBRARY ${CMAKE_SYSROOT}/usr/lib/${TARGET_ARCHITECTURE}/libvulkan.so)
+set(QT_LINKER_FLAGS "-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -Wl,-rpath-link=${TARGET_SYSROOT}/usr/lib/${TARGET_ARCHITECTURE} -Wl,-rpath-link=$HOME/qt6/pi/lib")
 
-### 4. DRM/KMS (для eglfs_kms) ###
-set(Libdrm_INCLUDE_DIR ${CMAKE_SYSROOT}/usr/include/libdrm)
-set(Libdrm_LIBRARY ${CMAKE_SYSROOT}/usr/lib/${TARGET_ARCHITECTURE}/libdrm.so)
-set(gbm_LIBRARY ${CMAKE_SYSROOT}/usr/lib/${TARGET_ARCHITECTURE}/libgbm.so)
+# Указываем путь, где искать библиотеки (включая libgstphotography-1.0.so)
+link_directories("/home/ab/rpi-sysroot/usr/lib/aarch64-linux-gnu")
 
-### 5. Пути поиска ###
-list(APPEND CMAKE_PREFIX_PATH 
-    "${CMAKE_SYSROOT}/usr/lib/${TARGET_ARCHITECTURE}"
-    "${CMAKE_SYSROOT}/usr/lib/${TARGET_ARCHITECTURE}/cmake"
-)
-
-### 6. Настройки pkg-config ###
-set(ENV{PKG_CONFIG_PATH} 
-    "${CMAKE_SYSROOT}/usr/lib/${TARGET_ARCHITECTURE}/pkgconfig:${CMAKE_SYSROOT}/usr/share/pkgconfig"
-)
-set(ENV{PKG_CONFIG_SYSROOT_DIR} ${CMAKE_SYSROOT})
-
-### 7. Линковка и rpath ###
-set(QT_LINKER_FLAGS "-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed")
-set(CMAKE_EXE_LINKER_FLAGS "${QT_LINKER_FLAGS} -Wl,-rpath-link,${CMAKE_SYSROOT}/usr/lib/${TARGET_ARCHITECTURE}")
-
-### 8. Политика поиска ###
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+set(CMAKE_BUILD_RPATH ${TARGET_SYSROOT})
+
+# Добавляем путь поиска библиотек и саму библиотеку
+add_link_options(
+    "-L/home/ab/rpi-sysroot/usr/lib/aarch64-linux-gnu"
+    "-lgstphotography-1.0"
+)
+
+include(CMakeInitializeConfigs)
+
+function(cmake_initialize_per_config_variable _PREFIX _DOCSTRING)
+  if (_PREFIX MATCHES "CMAKE_(C|CXX|ASM)_FLAGS")
+    set(CMAKE_${CMAKE_MATCH_1}_FLAGS_INIT "${QT_COMPILER_FLAGS}")
+        
+    foreach (config DEBUG RELEASE MINSIZEREL RELWITHDEBINFO)
+      if (DEFINED QT_COMPILER_FLAGS_${config})
+        set(CMAKE_${CMAKE_MATCH_1}_FLAGS_${config}_INIT "${QT_COMPILER_FLAGS_${config}}")
+      endif()
+    endforeach()
+  endif()
+
+
+  if (_PREFIX MATCHES "CMAKE_(SHARED|MODULE|EXE)_LINKER_FLAGS")
+    foreach (config SHARED MODULE EXE)
+      set(CMAKE_${config}_LINKER_FLAGS_INIT "${QT_LINKER_FLAGS}")
+    endforeach()
+  endif()
+
+  _cmake_initialize_per_config_variable(${ARGV})
+endfunction()
+
+set(XCB_PATH_VARIABLE ${TARGET_SYSROOT})
+
+set(GL_INC_DIR ${TARGET_SYSROOT}/usr/include)
+set(GL_LIB_DIR ${TARGET_SYSROOT}:${TARGET_SYSROOT}/usr/lib/${TARGET_ARCHITECTURE}/:${TARGET_SYSROOT}/usr:${TARGET_SYSROOT}/usr/lib)
+
+set(EGL_INCLUDE_DIR ${GL_INC_DIR})
+set(EGL_LIBRARY ${XCB_PATH_VARIABLE}/usr/lib/${TARGET_ARCHITECTURE}/libEGL.so)
+
+set(OPENGL_INCLUDE_DIR ${GL_INC_DIR})
+set(OPENGL_opengl_LIBRARY ${XCB_PATH_VARIABLE}/usr/lib/${TARGET_ARCHITECTURE}/libOpenGL.so)
+
+set(GLESv2_INCLUDE_DIR ${GL_INC_DIR})
+set(GLIB_LIBRARY ${XCB_PATH_VARIABLE}/usr/lib/${TARGET_ARCHITECTURE}/libGLESv2.so)
+
+set(GLESv2_INCLUDE_DIR ${GL_INC_DIR})
+set(GLESv2_LIBRARY ${XCB_PATH_VARIABLE}/usr/lib/${TARGET_ARCHITECTURE}/libGLESv2.so)
+
+set(gbm_INCLUDE_DIR ${GL_INC_DIR})
+set(gbm_LIBRARY ${XCB_PATH_VARIABLE}/usr/lib/${TARGET_ARCHITECTURE}/libgbm.so)
+
+set(Libdrm_INCLUDE_DIR ${GL_INC_DIR})
+set(Libdrm_LIBRARY ${XCB_PATH_VARIABLE}/usr/lib/${TARGET_ARCHITECTURE}/libdrm.so)
+
+set(XCB_XCB_INCLUDE_DIR ${GL_INC_DIR})
+set(XCB_XCB_LIBRARY ${XCB_PATH_VARIABLE}/usr/lib/${TARGET_ARCHITECTURE}/libxcb.so)
+
+list(APPEND CMAKE_LIBRARY_PATH ${CMAKE_SYSROOT}/usr/lib/${TARGET_ARCHITECTURE})
+list(APPEND CMAKE_PREFIX_PATH "/usr/lib/${TARGET_ARCHITECTURE}/cmake")
 ```
 Исправьте абсолютные символические ссылки
 ```
@@ -300,7 +337,7 @@ python3 sysroot-relativelinks.py rpi-sysroot
 Скомпилируйте исходный код для rpi.
 ```
 cd $HOME/qt6/pi-build
-cmake ../src/qt-everywhere-src-6.5.5/ -GNinja -DCMAKE_BUILD_TYPE=Release -DQT_FEATURE_opengles2=ON -DQT_FEATURE_opengles3=ON -DQT_BUILD_EXAMPLES=OFF -DQT_BUILD_TESTS=OFF -DQT_HOST_PATH=$HOME/qt6/host -DCMAKE_STAGING_PREFIX=$HOME/qt6/pi -DCMAKE_INSTALL_PREFIX=/usr/local/qt6 -DCMAKE_TOOLCHAIN_FILE=$HOME/qt6/toolchain.cmake -DQT_QMAKE_TARGET_MKSPEC=linux-aarch64-gnu-g++ -DQT_FEATURE_eglfs=ON -DQT_FEATURE_xcb=OFF -DLLVM_DIR=/usr/lib/llvm-14/lib/cmake/llvm -DClang_DIR=/usr/lib/llvm-14/lib/cmake/clang -DBUILD_qtwebengine=OFF -DQT_FEATURE_dbus=OFF -DBUILD_qtmultimedia=OFF
+cmake ../src/qt-everywhere-src-6.5.5/ -GNinja -DCMAKE_BUILD_TYPE=Release -DQT_FEATURE_opengles2=ON -DQT_FEATURE_opengles3=ON -DQT_BUILD_EXAMPLES=ON -DQT_BUILD_TESTS=OFF -DQT_HOST_PATH=$HOME/qt6/host -DCMAKE_STAGING_PREFIX=$HOME/qt6/pi -DCMAKE_INSTALL_PREFIX=/usr/local/qt6 -DCMAKE_TOOLCHAIN_FILE=$HOME/qt6/toolchain.cmake -DQT_QMAKE_TARGET_MKSPEC=linux-aarch64-gnu-g++ -DLLVM_DIR=/usr/lib/llvm-14/lib/cmake/llvm -DClang_DIR=/usr/lib/llvm-14/lib/cmake/clang -DBUILD_qtwebengine=OFF 
 ```
 ```
 cmake --build . --parallel 8
