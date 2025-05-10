@@ -5,6 +5,7 @@
 На этой странице показаны шаги по компиляции Qt6.5.5 для RPI. Надеюсь, эта страница поможет тем, кто застрял в официальном руководстве. Перед началом настоятельно рекомендуется использовать ту же Ubuntu 22.04.5.
 
 На ноутбуке рекомендуется установить Ubuntu 22.04.5 https://releases.ubuntu.com/22.04/
+
 На Orange pi 5 Ultra рекомендуется установить Ubuntu 22.04.5 https://github.com/Joshua-Riek/ubuntu-rockchip/releases/download/v2.4.0/ubuntu-22.04-preinstalled-desktop-arm64-orangepi-5-max.img.xz
 
 
