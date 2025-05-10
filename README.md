@@ -8,7 +8,6 @@
 
 На Orange pi 5 Ultra рекомендуется установить Ubuntu 22.04.5 https://github.com/Joshua-Riek/ubuntu-rockchip/releases/download/v2.4.0/ubuntu-22.04-preinstalled-desktop-arm64-orangepi-5-max.img.xz
 
-
 # Подготовьте RPI
 Подключитесь к Orange Pi 5 Ultra через терминал хост машины по протоколу ssh (используйте свое имя устройства и свой ip адрес, если они отличаются от текущих).
 ```
@@ -19,6 +18,10 @@ ssh -p 22 ab@192.168.0.121
 sudo apt update
 sudo apt upgrade
 sudo reboot
+```
+Установите зависимости из файла install_packages.sh
+```
+sudo ./install_packages.sh
 ```
 Установите необходимые пакеты.
 ```
@@ -66,6 +69,10 @@ echo "orangepi ALL=(ALL) NOPASSWD: /usr/bin/rsync" | sudo tee -a /etc/sudoers
 ```
 sudo apt update
 sudo apt upgrade
+```
+Установите зависимости из файла install_packages.sh
+```
+sudo ./install_packages.sh
 ```
 Установите необходимые пакеты.
 ```
