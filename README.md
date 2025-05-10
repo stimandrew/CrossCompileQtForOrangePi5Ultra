@@ -210,7 +210,8 @@ mkdir rpi-sysroot rpi-sysroot/usr rpi-sysroot/opt
 mkdir qt6 qt6/host qt6/pi qt6/host-build qt6/pi-build qt6/src
 ```
 Скачайте Qt 6.5.5 из официального репозитория
-Разархивировать исходный код Qt
+
+Разархивируйте исходный код Qt
 ```
 cd ~/qt6/src
 tar xf ~/Загрузки/qt-everywhere-src-6.5.5.tar.xz
