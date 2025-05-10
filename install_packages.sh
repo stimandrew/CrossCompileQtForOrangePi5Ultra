@@ -159,6 +159,8 @@ sudo apt-get install -y \
     libwayland-egl1 \
     libwayland-client0 \
     libwayland-server0 \
+    libwayland-client++0 \
+    libwayland-cursor++0
     
 echo "--------------------------------------"    
 echo "Установка пакетов для поддержки QtPositioning!"
