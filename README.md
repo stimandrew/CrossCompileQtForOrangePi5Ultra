@@ -209,7 +209,8 @@ cd ~
 mkdir rpi-sysroot rpi-sysroot/usr rpi-sysroot/opt
 mkdir qt6 qt6/host qt6/pi qt6/host-build qt6/pi-build qt6/src
 ```
-Скачать исходный код Qt
+Скачайте Qt 6.5.5 из официального репозитория
+Разархивировать исходный код Qt
 ```
 cd ~/qt6/src
 tar xf ~/Загрузки/qt-everywhere-src-6.5.5.tar.xz
@@ -269,7 +270,6 @@ link_directories(
 "/home/ab/rpi-sysroot/usr/lib/aarch64-linux-gnu/pulseaudio"
 )
 
-
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
@@ -299,7 +299,6 @@ function(cmake_initialize_per_config_variable _PREFIX _DOCSTRING)
     endforeach()
   endif()
 
-
   if (_PREFIX MATCHES "CMAKE_(SHARED|MODULE|EXE)_LINKER_FLAGS")
     foreach (config SHARED MODULE EXE)
       set(CMAKE_${config}_LINKER_FLAGS_INIT "${QT_LINKER_FLAGS}")
@@ -308,8 +307,6 @@ function(cmake_initialize_per_config_variable _PREFIX _DOCSTRING)
 
   _cmake_initialize_per_config_variable(${ARGV})
 endfunction()
-
-
 
 set(XCB_PATH_VARIABLE ${TARGET_SYSROOT})
 
@@ -334,8 +331,26 @@ set(gbm_LIBRARY ${XCB_PATH_VARIABLE}/usr/lib/${TARGET_ARCHITECTURE}/libgbm.so)
 set(Libdrm_INCLUDE_DIR ${GL_INC_DIR})
 set(Libdrm_LIBRARY ${XCB_PATH_VARIABLE}/usr/lib/${TARGET_ARCHITECTURE}/libdrm.so)
 
-set(XCB_XCB_INCLUDE_DIR ${GL_INC_DIR})
-set(XCB_XCB_LIBRARY ${XCB_PATH_VARIABLE}/usr/lib/${TARGET_ARCHITECTURE}/libxcb.so)
+# Включение всех плагинов
+#set(QT_FEATURE_wayland ON)
+#set(QT_FEATURE_xcb ON)
+#set(QT_FEATURE_eglfs ON)
+#set(QT_FEATURE_linuxfb ON)
+#set(QT_FEATURE_vnc ON)
+#set(QT_FEATURE_kms ON)
+#set(QT_FEATURE_vkkhrdisplay ON)
+
+# Пути к зависимостям (пример для Wayland)
+set(WAYLAND_CLIENT_INCLUDE_DIR ${TARGET_SYSROOT}/usr/include)
+set(WAYLAND_CLIENT_LIBRARIES ${TARGET_SYSROOT}/usr/lib/aarch64-linux-gnu/libwayland-client.so)
+
+# Для EGLFS (Mali GPU)
+set(EGL_INCLUDE_DIR ${TARGET_SYSROOT}/usr/include)
+set(EGL_LIBRARY ${TARGET_SYSROOT}/usr/lib/aarch64-linux-gnu/libEGL.so)
+
+# Для XCB
+set(XCB_INCLUDE_DIR ${TARGET_SYSROOT}/usr/include)
+set(XCB_LIBRARIES ${TARGET_SYSROOT}/usr/lib/aarch64-linux-gnu/libxcb.so)
 
 list(APPEND CMAKE_LIBRARY_PATH ${CMAKE_SYSROOT}/usr/lib/${TARGET_ARCHITECTURE})
 list(APPEND CMAKE_PREFIX_PATH "/usr/lib/${TARGET_ARCHITECTURE}/cmake")
@@ -364,17 +379,18 @@ cmake --install .
 rsync -avz --rsync-path="sudo rsync" $HOME/qt6/pi/* ab@192.168.0.121:/usr/local/qt6
 ```
 ## С помощью Qt Creator
-Set up **Compilers**.
+Скачайте и установите **Qt Creator 14.0.2** из официального репозитория.
 ```
 cd ~
 sudo dpkg -i ~/Загрузки/qtcreator-linux-x64-14.0.2.deb
 ```
+Настройте **Компиляторы**.
 ![image](https://github.com/MuyePan/CrossCompileQtForRpi/assets/136073506/e98645c4-cf99-45e3-a8b4-ecc0899d6fa0)
 
-Настройте **Debuggers**.
+Настройте **Отладчики**.
 ![image](https://github.com/MuyePan/CrossCompileQtForRpi/assets/136073506/f75adf17-b8eb-4149-a5fc-cf59978aa3d9)
 
-Настройте **Devices**.
+Настройте **Устройства**.
 ![image](https://github.com/MuyePan/CrossCompileQtForRpi/assets/136073506/57609ea4-6901-41a8-8264-c6bb7aeac844)
 
 Click **Deploy Public Key...** to deploy the key. Создайте его, если он еще не существовал.
@@ -382,10 +398,10 @@ Click **Deploy Public Key...** to deploy the key. Создайте его, ес�
 Протестируйте устройство.
 ![image](https://github.com/MuyePan/CrossCompileQtForRpi/assets/136073506/9883e600-7963-48e3-98fc-dc3f2e651bff)
 
-Настройте **Qt Versions**.
+Настройте **Профили Qt**.
 ![image](https://github.com/MuyePan/CrossCompileQtForRpi/assets/136073506/6c43b6f0-a256-4d2d-86f6-80bb393602af)
 
-Настройте **Kits**.
+Настройте **Комплекты**.
 ![image](https://github.com/MuyePan/CrossCompileQtForRpi/assets/136073506/93e04b07-7cbc-43d6-a17c-53fe6d272de9)
 
 В **CMake Configuration** opton нажмите "Изменить" и "Добавить следующие команды". **Вам следует изменить следующие команды в соответствии с вашими потребностями.**
@@ -399,7 +415,7 @@ On **Help** option select **About Plugins**.Then uncheck **ClangCodeModel**.
 
 ![image](https://github.com/MuyePan/CrossCompileQtForRpi/assets/136073506/efb1db08-c5cc-4210-adfe-85507e36d329)
 
-Append following piece of code to the end of CMakeLists.txt.
+Добавьте следующий фрагмент кода в конец раздела CMakeLists.txt.
 ```
 install(TARGETS HelloWorld
     RUNTIME DESTINATION ""
