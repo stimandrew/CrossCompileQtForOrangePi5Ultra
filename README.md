@@ -123,7 +123,7 @@ contrib/download_prerequisites
 Создайте папку для установки компилятора.
 ```
 sudo mkdir -p /opt/cross-pi-gcc
-sudo chown $USER -R /opt/cross-pi-gcc
+sudo chown $USER /opt/cross-pi-gcc
 sudo chmod 777 -R /opt/cross-pi-gcc
 export PATH=/opt/cross-pi-gcc/bin:$PATH
 ```
