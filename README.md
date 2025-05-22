@@ -172,7 +172,7 @@ cd ~/gcc_all
 mkdir build-gcc && cd build-gcc
 ../gcc-11.4.0/configure --prefix=/opt/cross-pi-gcc --target=aarch64-linux-gnu --enable-languages=c,c++ --disable-multilib
 make -j8 all-gcc
-make install-gcc
+sudo make install-gcc
 ```
 Частично постройте Glibc. **Вам следует изменить следующие команды в соответствии с вашими потребностями.**
 ```
@@ -189,19 +189,19 @@ touch /opt/cross-pi-gcc/aarch64-linux-gnu/include/gnu/stubs.h
 ```
 cd ~/gcc_all/build-gcc
 make -j8 all-target-libgcc
-make install-target-libgcc
+sudo make install-target-libgcc
 ```
 Достраивайте glibc.
 ```
 cd ~/gcc_all/build-glibc
 make -j8
-make install
+sudo make install
 ```
 Завершите строительство gcc.
 ```
 cd ~/gcc_all/build-gcc
 make -j8
-make install
+sudo make install
 ```
 На данный момент у нас есть полный набор инструментов для кросс-компиляции с gcc. Папка gcc_all больше не нужна. Вы можете удалить ее.
 ```
