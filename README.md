@@ -114,6 +114,8 @@ tar xf glibc-2.35.tar.bz2
 wget https://ftpmirror.gnu.org/gcc/gcc-11.4.0/gcc-11.4.0.tar.gz
 git clone --depth=1 https://github.com/raspberrypi/linux
 tar xf gcc-11.4.0.tar.gz
+```
+```
 cd gcc-11.4.0
 contrib/download_prerequisites
 ```
@@ -121,8 +123,8 @@ contrib/download_prerequisites
 Создайте папку для установки компилятора.
 ```
 sudo mkdir -p /opt/cross-pi-gcc
-sudo chown $USER /opt/cross-pi-gcc
-sudo chmod -R 777 /opt/cross-pi-gcc/
+sudo chown $USER -R /opt/cross-pi-gcc
+sudo chmod 777 -R /opt/cross-pi-gcc
 export PATH=/opt/cross-pi-gcc/bin:$PATH
 ```
 Откройте ~/.bashrc в редакторе nano.
@@ -141,7 +143,7 @@ source ~/.bashrc
 ```
 cd ~/gcc_all
 cd linux
-sudo make ARCH=arm64 INSTALL_HDR_PATH=/opt/cross-pi-gcc/aarch64-linux-gnu headers_install
+make ARCH=arm64 INSTALL_HDR_PATH=/opt/cross-pi-gcc/aarch64-linux-gnu headers_install
 ```
 Создайте Binutils. **Вам следует изменить следующие команды в соответствии с вашими потребностями.**
 ```
@@ -155,8 +157,8 @@ mkdir build-binutils && cd build-binutils
     --with-fpu=neon-fp-armv8 \
     --disable-multilib \
     --disable-werror
-sudo make -j$(nproc)
-sudo make install
+make -j$(nproc)
+make install
 ```
 Редактировать gcc-11.4.0/libsanitizer/asan/asan_linux.cpp. Добавьте следующий фрагмент кода.
 ```
@@ -170,37 +172,37 @@ sudo make install
 cd ~/gcc_all
 mkdir build-gcc && cd build-gcc
 ../gcc-11.4.0/configure --prefix=/opt/cross-pi-gcc --target=aarch64-linux-gnu --enable-languages=c,c++ --disable-multilib
-sudo make -j8 all-gcc
-sudo make install-gcc
+make -j8 all-gcc
+make install-gcc
 ```
 Частично постройте Glibc. **Вам следует изменить следующие команды в соответствии с вашими потребностями.**
 ```
 cd ~/gcc_all
 mkdir build-glibc && cd build-glibc
 ../glibc-2.35/configure --prefix=/opt/cross-pi-gcc/aarch64-linux-gnu --build=$MACHTYPE --host=aarch64-linux-gnu --target=aarch64-linux-gnu --with-headers=/opt/cross-pi-gcc/aarch64-linux-gnu/include --disable-multilib libc_cv_forced_unwind=yes
-sudo make install-bootstrap-headers=yes install-headers
-sudo make -j8 csu/subdir_lib
-sudo install csu/crt1.o csu/crti.o csu/crtn.o /opt/cross-pi-gcc/aarch64-linux-gnu/lib
-sudo aarch64-linux-gnu-gcc -nostdlib -nostartfiles -shared -x c /dev/null -o /opt/cross-pi-gcc/aarch64-linux-gnu/lib/libc.so
-sudo touch /opt/cross-pi-gcc/aarch64-linux-gnu/include/gnu/stubs.h
+make install-bootstrap-headers=yes install-headers
+make -j8 csu/subdir_lib
+install csu/crt1.o csu/crti.o csu/crtn.o /opt/cross-pi-gcc/aarch64-linux-gnu/lib
+aarch64-linux-gnu-gcc -nostdlib -nostartfiles -shared -x c /dev/null -o /opt/cross-pi-gcc/aarch64-linux-gnu/lib/libc.so
+touch /opt/cross-pi-gcc/aarch64-linux-gnu/include/gnu/stubs.h
 ```
 Вернемся к gcc.
 ```
 cd ~/gcc_all/build-gcc
-sudo make -j8 all-target-libgcc
-sudo make install-target-libgcc
+make -j8 all-target-libgcc
+make install-target-libgcc
 ```
 Достраивайте glibc.
 ```
 cd ~/gcc_all/build-glibc
-sudo make -j8
-sudo make install
+make -j8
+make install
 ```
 Завершите строительство gcc.
 ```
 cd ~/gcc_all/build-gcc
-sudo make -j8
-sudo make install
+make -j8
+make install
 ```
 На данный момент у нас есть полный набор инструментов для кросс-компиляции с gcc. Папка gcc_all больше не нужна. Вы можете удалить ее.
 ```
