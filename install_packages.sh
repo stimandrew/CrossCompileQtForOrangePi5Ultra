@@ -138,7 +138,8 @@ sudo apt-get install -y \
     gstreamer1.0-pulseaudio \
     libpulse-dev \
     libalsa-ocaml-dev \
-    libasound2-dev
+    libasound2-dev \
+    librga-dev
     
 #echo "--------------------------------------"    
 #echo "Установка графических драйверов (Mali-G610)!"
