@@ -62,7 +62,6 @@ sudo apt-get install -y \
     libvpx-dev \
     libsrtp2-dev \
     libsnappy-dev \
-    "^libxcb.*" \
     libxslt-dev \
     ruby \
     libbz2-dev \
@@ -135,6 +134,7 @@ sudo apt-get install -y \
     gstreamer1.0-gl \
     gstreamer1.0-gtk3 \
     gstreamer1.0-qt5 \
+    gstreamer1.0-qt6 \
     gstreamer1.0-pulseaudio \
     libpulse-dev \
     libalsa-ocaml-dev \
