@@ -47,6 +47,28 @@ ldd --version
 ```
 ![image](https://github.com/user-attachments/assets/ff4e9bbe-cbc5-4265-afdf-84c302dc64b3)
 
+```
+ab@ab-orangepi:~$ gcc --version
+ld --version
+ldd --version
+gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+Copyright (C) 2023 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+GNU ld (GNU Binutils for Ubuntu) 2.42
+Copyright (C) 2024 Free Software Foundation, Inc.
+This program is free software; you may redistribute it under the terms of
+the GNU General Public License version 3 or (at your option) a later version.
+This program has absolutely no warranty.
+ldd (Ubuntu GLIBC 2.39-0ubuntu8.4) 2.39
+Copyright (C) 2024 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+Written by Roland McGrath and Ulrich Drepper.
+
+```
+
 Откройте ~/.bashrc в редакторе nano.
 ```
 nano ~/.bashrc
