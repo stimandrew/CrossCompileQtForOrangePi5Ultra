@@ -120,7 +120,7 @@ ls -l
 ```
 
 ## Создайте gcc как кросс-компилятор
-Загрузите необходимый исходный код. ** Вам следует изменить следующие команды в соответствии с вашими потребностями.**
+Загрузите необходимый исходный код. **Вам следует изменить следующие команды в соответствии с вашими потребностями.**
 На тот момент, когда я создаю эту страницу, они:
 * gcc 13.3.0
 * binutils 2.42(ld version)
@@ -140,6 +140,7 @@ wget https://ftpmirror.gnu.org/gcc/gcc-13.3.0/gcc-13.3.0.tar.gz
 git clone --depth=1 https://github.com/raspberrypi/linux
 tar xf gcc-13.3.0.tar.gz
 ```
+Загрузить и подготовить все необходимые зависимости, требуемые для сборки GCC
 ```
 cd gcc-13.3.0
 contrib/download_prerequisites
@@ -152,17 +153,9 @@ sudo chown $USER /opt/cross-pi-gcc
 sudo chmod 777 -R /opt/cross-pi-gcc
 export PATH=/opt/cross-pi-gcc/bin:$PATH
 ```
-Откройте ~/.bashrc в редакторе nano.
+Добавьте следующий фрагмент кода в конец файла ~/.bashrc. Обновите внесенные изменения.
 ```
-nano ~/.bashrc
-```
-Добавьте следующий фрагмент кода в конец файла ~/.bashrc.
-```
-export PATH=/opt/cross-pi-gcc/bin:$PATH
-```
-Обновите внесенные изменения.
-```
-source ~/.bashrc
+echo 'export PATH=/opt/cross-pi-gcc/bin:$PATH' >> ~/.bashrc && source ~/.bashrc
 ```
 Скопируйте заголовки ядра в указанную выше папку.
 ```
