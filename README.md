@@ -48,8 +48,7 @@ gcc --version
 ld --version
 ldd --version
 ```
-![image](https://github.com/user-attachments/assets/ff4e9bbe-cbc5-4265-afdf-84c302dc64b3)
-
+![Uploading Снимок экрана от 2025-06-09 10-58-06.png…]()
 ```
 ab@ab-orangepi:~$ gcc --version
 ld --version
