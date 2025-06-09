@@ -170,6 +170,7 @@ mkdir build-binutils && cd build-binutils
 ../binutils-2.42/configure --prefix=/opt/cross-pi-gcc --target=aarch64-linux-gnu --with-arch=armv8-a+crc+crypto --with-tune=cortex-a76 --with-fpu=neon-fp-armv8 --disable-multilib --disable-werror
 make -j$(nproc)
 make install
+echo "Шаг №1 - сборка и установка Binutils выполнена успешно!"
 ```
 Редактировать gcc-13.3.0/libsanitizer/asan/asan_linux.cpp. Добавьте следующий фрагмент кода.
 ```
@@ -185,6 +186,7 @@ mkdir build-gcc && cd build-gcc
 ../gcc-13.3.0/configure --prefix=/opt/cross-pi-gcc --target=aarch64-linux-gnu --enable-languages=c,c++ --disable-multilib
 make -j8 all-gcc
 make install-gcc
+echo "Шаг №2 - частичная сборка и установка gcc-13.3.0 выполнена успешно!"
 ```
 Частично постройте Glibc. **Вам следует изменить следующие команды в соответствии с вашими потребностями.**
 ```
@@ -196,24 +198,28 @@ make -j8 csu/subdir_lib
 install csu/crt1.o csu/crti.o csu/crtn.o /opt/cross-pi-gcc/aarch64-linux-gnu/lib
 aarch64-linux-gnu-gcc -nostdlib -nostartfiles -shared -x c /dev/null -o /opt/cross-pi-gcc/aarch64-linux-gnu/lib/libc.so
 touch /opt/cross-pi-gcc/aarch64-linux-gnu/include/gnu/stubs.h
+echo "Шаг №3 - частичная сборка и установка glibc-2.39 выполнена успешно!"
 ```
 Вернемся к gcc.
 ```
 cd ~/gcc_all/build-gcc
 make -j8 all-target-libgcc
 make install-target-libgcc
+echo "Шаг №4 - возврат к gcc выполнен успешно!"
 ```
 Достраивайте glibc.
 ```
 cd ~/gcc_all/build-glibc
 make -j8
 make install
+echo "Шаг №5 - досборка к glibc выполнена успешно!"
 ```
 Завершите строительство gcc.
 ```
 cd ~/gcc_all/build-gcc
 make -j8
 make install
+echo "Шаг №6 - Завершение строительства gcc выполнено успешно!"
 ```
 На данный момент у нас есть полный набор инструментов для кросс-компиляции с gcc. Папка gcc_all больше не нужна. Вы можете удалить ее.
 ```
