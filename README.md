@@ -174,6 +174,9 @@ echo "Шаг №1 - сборка и установка Binutils выполнен
 ```
 Редактировать gcc-13.3.0/libsanitizer/asan/asan_linux.cpp. Добавьте следующий фрагмент кода.
 ```
+nano ~/gcc_all/gcc-13.3.0/libsanitizer/asan/asan_linux.cpp
+```
+```
 #ifndef PATH_MAX
 #define PATH_MAX 4096
 #endif
