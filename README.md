@@ -21,6 +21,9 @@ sudo reboot
 ```
 Установите зависимости из файла install_packages.sh
 ```
+cd ~
+wget https://raw.githubusercontent.com/stimandrew/CrossCompileQtForOrangePi5Ultra/main/install_packages.sh
+chmod +x install_packages.sh
 sudo ./install_packages.sh
 ```
 Установите необходимые пакеты.
