@@ -42,7 +42,7 @@ sudo mkdir /opt/vc
 ```
 sudo chmod 777 /usr/local/bin
 ```
-Запомните версии gcc (11.4.0), ld(2.38) и ldd (2.35). Исходный код той же версии следует загрузить для последующей сборки кросс-компилятора.
+Запомните версии gcc (13.3.0), ld(2.42) и ldd (2.39). Исходный код той же версии следует загрузить для последующей сборки кросс-компилятора.
 ```
 gcc --version
 ld --version
@@ -122,26 +122,26 @@ ls -l
 ## Создайте gcc как кросс-компилятор
 Загрузите необходимый исходный код. ** Вам следует изменить следующие команды в соответствии с вашими потребностями.**
 На тот момент, когда я создаю эту страницу, они:
-* gcc 11.4.0
-* binutils 2.38(ld version)
-* glibc 2.35(ldd version)
+* gcc 13.3.0
+* binutils 2.42(ld version)
+* glibc 2.39(ldd version)
 ```
 cd ~
 mkdir gcc_all && cd gcc_all
-wget https://ftpmirror.gnu.org/binutils/binutils-2.38.tar.bz2
-tar xf binutils-2.38.tar.bz2
+wget https://ftpmirror.gnu.org/binutils/binutils-2.42.tar.bz2
+tar xf binutils-2.42.tar.bz2
 ```
 ```
-wget https://ftpmirror.gnu.org/glibc/glibc-2.35.tar.bz2
-tar xf glibc-2.35.tar.bz2
+wget https://ftpmirror.gnu.org/glibc/glibc-2.39.tar.bz2
+tar xf glibc-2.39.tar.bz2
 ```
 ```
-wget https://ftpmirror.gnu.org/gcc/gcc-11.4.0/gcc-11.4.0.tar.gz
+wget https://ftpmirror.gnu.org/gcc/gcc-13.3.0/gcc-13.3.0.tar.gz
 git clone --depth=1 https://github.com/raspberrypi/linux
-tar xf gcc-11.4.0.tar.gz
+tar xf gcc-13.3.0.tar.gz
 ```
 ```
-cd gcc-11.4.0
+cd gcc-13.3.0
 contrib/download_prerequisites
 ```
 
@@ -174,11 +174,11 @@ make ARCH=arm64 INSTALL_HDR_PATH=/opt/cross-pi-gcc/aarch64-linux-gnu headers_ins
 ```
 cd ~/gcc_all
 mkdir build-binutils && cd build-binutils
-../binutils-2.38/configure --prefix=/opt/cross-pi-gcc --target=aarch64-linux-gnu --with-arch=armv8-a+crc+crypto --with-tune=cortex-a76 --with-fpu=neon-fp-armv8 --disable-multilib --disable-werror
+../binutils-2.42/configure --prefix=/opt/cross-pi-gcc --target=aarch64-linux-gnu --with-arch=armv8-a+crc+crypto --with-tune=cortex-a76 --with-fpu=neon-fp-armv8 --disable-multilib --disable-werror
 make -j$(nproc)
 make install
 ```
-Редактировать gcc-11.4.0/libsanitizer/asan/asan_linux.cpp. Добавьте следующий фрагмент кода.
+Редактировать gcc-13.3.0/libsanitizer/asan/asan_linux.cpp. Добавьте следующий фрагмент кода.
 ```
 #ifndef PATH_MAX
 #define PATH_MAX 4096
@@ -189,7 +189,7 @@ make install
 ```
 cd ~/gcc_all
 mkdir build-gcc && cd build-gcc
-../gcc-11.4.0/configure --prefix=/opt/cross-pi-gcc --target=aarch64-linux-gnu --enable-languages=c,c++ --disable-multilib
+../gcc-13.3.0/configure --prefix=/opt/cross-pi-gcc --target=aarch64-linux-gnu --enable-languages=c,c++ --disable-multilib
 make -j8 all-gcc
 make install-gcc
 ```
@@ -197,7 +197,7 @@ make install-gcc
 ```
 cd ~/gcc_all
 mkdir build-glibc && cd build-glibc
-../glibc-2.35/configure --prefix=/opt/cross-pi-gcc/aarch64-linux-gnu --build=$MACHTYPE --host=aarch64-linux-gnu --target=aarch64-linux-gnu --with-headers=/opt/cross-pi-gcc/aarch64-linux-gnu/include --disable-multilib libc_cv_forced_unwind=yes
+../glibc-2.39/configure --prefix=/opt/cross-pi-gcc/aarch64-linux-gnu --build=$MACHTYPE --host=aarch64-linux-gnu --target=aarch64-linux-gnu --with-headers=/opt/cross-pi-gcc/aarch64-linux-gnu/include --disable-multilib libc_cv_forced_unwind=yes
 make install-bootstrap-headers=yes install-headers
 make -j8 csu/subdir_lib
 install csu/crt1.o csu/crti.o csu/crtn.o /opt/cross-pi-gcc/aarch64-linux-gnu/lib
