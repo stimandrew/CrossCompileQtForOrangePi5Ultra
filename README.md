@@ -267,7 +267,7 @@ rsync -avz --rsync-path="sudo rsync" ab@192.168.0.121:/opt/vc rpi-sysroot/opt
 ```
 Создайте файл с именем toolchain.cmake в файле $HOME/qt6.
 ```
-cd/qt6 ~
+cd ~qt6/
 wget https://raw.githubusercontent.com/stimandrew/CrossCompileQtForOrangePi5Ultra/main/toolchain.cmake
 ```
 Исправьте абсолютные символические ссылки
