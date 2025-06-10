@@ -283,7 +283,7 @@ python3 sysroot-relativelinks.py rpi-sysroot
 Скомпилируйте исходный код для rpi.
 ```
 cd $HOME/qt6/pi-build
-cmake ../src/qt-everywhere-src-6.5.5/ -GNinja -DCMAKE_BUILD_TYPE=Release -DQT_FEATURE_opengles2=ON -DQT_FEATURE_opengles3=ON -DQT_BUILD_EXAMPLES=OFF -DQT_BUILD_TESTS=OFF -DQT_HOST_PATH=$HOME/qt6/host -DCMAKE_STAGING_PREFIX=$HOME/qt6/pi -DCMAKE_INSTALL_PREFIX=/usr/local/qt6 -DCMAKE_TOOLCHAIN_FILE=$HOME/qt6/toolchain.cmake -DQT_QMAKE_TARGET_MKSPEC=linux-aarch64-gnu-g++ -DLLVM_DIR=/usr/lib/llvm-14/lib/cmake/llvm -DClang_DIR=/usr/lib/llvm-14/lib/cmake/clang -DBUILD_qtwebengine=OFF
+cmake ../src/qt-everywhere-src-6.5.5/ -GNinja -DCMAKE_BUILD_TYPE=Release -DQT_FEATURE_opengles2=ON -DQT_FEATURE_opengles3=ON -DQT_BUILD_EXAMPLES=OFF -DQT_BUILD_TESTS=OFF -DQT_HOST_PATH=$HOME/qt6/host -DCMAKE_STAGING_PREFIX=$HOME/qt6/pi -DCMAKE_INSTALL_PREFIX=/usr/local/qt6 -DCMAKE_TOOLCHAIN_FILE=$HOME/qt6/toolchain.cmake -DQT_QMAKE_TARGET_MKSPEC=linux-aarch64-gnu-g++ -DLLVM_DIR=/usr/lib/llvm-18/lib/cmake/llvm -DClang_DIR=/usr/lib/llvm-18/lib/cmake/clang -DBUILD_qtwebengine=OFF
 ```
 ```
 cmake --build . --parallel 8
