@@ -4,7 +4,7 @@ echo "--------------------------------------"
 echo "Установка пакетов для основных инструментов сборки!"
 echo "--------------------------------------"    
 # Основные инструменты сборки
-sudo apt-get install -y build-essential cmake ninja-build git python3 perl make gcc pkg-config
+sudo apt-get install -y build-essential cmake ninja-build git python3 perl make gcc pkg-config meson
 echo "--------------------------------------"    
 echo "Установка пакетов для Qt Core и базовых модулей!"
 echo "--------------------------------------"    
@@ -132,9 +132,9 @@ sudo apt-get install -y libalsa-ocaml-dev
 sudo apt-get install -y libasound2-dev
 sudo apt-get install -y librga-dev
     
-#echo "--------------------------------------"    
-#echo "Установка графических драйверов!"
-#echo "--------------------------------------"    
+echo "--------------------------------------"    
+echo "Установка графических драйверов!"
+echo "--------------------------------------"    
 # Установка графических драйверов
 sudo apt-get install -y mesa-utils
 sudo apt-get install -y mesa-vulkan-drivers
@@ -149,8 +149,8 @@ sudo apt-get install -y wayland-protocols
 sudo apt-get install -y libwayland-egl1
 sudo apt-get install -y libwayland-client0
 sudo apt-get install -y libwayland-server0
-sudo apt-get install -y libwayland-client++0
-sudo apt-get install -y libwayland-cursor++0
+sudo apt-get install -y libwayland-client++1
+sudo apt-get install -y libwayland-cursor++1
     
 echo "--------------------------------------"    
 echo "Установка пакетов для поддержки QtPositioning!"
@@ -218,7 +218,7 @@ sudo apt-get install -y libprotobuf-dev
 sudo apt-get install -y protobuf-compiler
 sudo apt-get install -y libvulkan-dev
 sudo apt-get install -y vulkan-tools
-sudo apt-get install -y vulkan-validationlayers-dev
+sudo apt-get install -y vulkan-utility-libraries-dev
 sudo apt-get install -y libicu-dev
 sudo apt-get install -y libxml2-dev
 sudo apt-get install -y libxslt1-dev
