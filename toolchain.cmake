@@ -44,7 +44,7 @@ add_link_options(
     "-L/home/ab/rpi-sysroot/usr/lib/aarch64-linux-gnu/pulseaudio"
     "-lgstphotography-1.0"
     "-lpulse"
-    "-lpulsecommon-15.99"
+    "-lpulsecommon-16.1"
 )
 
 include(CMakeInitializeConfigs)
