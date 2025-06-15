@@ -26,10 +26,6 @@ wget https://raw.githubusercontent.com/stimandrew/CrossCompileQtForOrangePi5Ultr
 chmod +x install_packages_target.sh
 sudo ./install_packages_target.sh
 ```
-Установите необходимые пакеты.
-```
-sudo apt-get install libiodbc2-dev firebird-dev libxext-dev libxcb1 libxcb1-dev libx11-xcb1 libx11-xcb-dev libxcb-keysyms1 libxcb-keysyms1-dev libxcb-image0 libxcb-image0-dev libxcb-shm0 libxcb-shm0-dev libxcb-icccm4 libxcb-icccm4-dev libxcb-sync1 libxcb-sync-dev libxcb-render-util0 libxcb-render-util0-dev libxcb-xfixes0-dev libxrender-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-glx0-dev libxi-dev libdrm-dev libxcb-xinerama0 libxcb-xinerama0-dev libatspi2.0-dev libxcursor-dev libxcomposite-dev libxdamage-dev libxss-dev libxtst-dev libpci-dev libcap-dev libxrandr-dev libdirectfb-dev libaudio-dev libxkbcommon-x11-dev gdbserver
-```
 Создайте папку для установки qt6.
 ```
 sudo mkdir /usr/local/qt6
