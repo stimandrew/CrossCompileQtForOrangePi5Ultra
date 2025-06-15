@@ -1,19 +1,19 @@
 # CrossCompileQtForOrangePi5Ultra
 Описан процесс настройки кросскомпиляции для одноплатного компьютера Orange Pi 5 Ultra
 
-# Кросс компиляция Qt6.5.5 для RPI
-На этой странице показаны шаги по компиляции Qt6.5.5 для RPI. Надеюсь, эта страница поможет тем, кто застрял в официальном руководстве. Перед началом настоятельно рекомендуется использовать ту же Ubuntu 24.04.5.
+# Кросс компиляция Qt6.5.5 для OrangePi
+На этой странице показаны шаги по компиляции Qt6.5.5 для OrangePi. Надеюсь, эта страница поможет тем, кто застрял в официальном руководстве. Перед началом настоятельно рекомендуется использовать ту же Ubuntu 24.04.5.
 
 На ноутбуке рекомендуется установить Ubuntu 24.04.5 https://releases.ubuntu.com/24.04/
 
-На Orange pi 5 Ultra рекомендуется установить Ubuntu 24.04.2 https://github.com/Joshua-Riek/ubuntu-rockchip/releases/download/v2.4.0/ubuntu-24.04-preinstalled-desktop-arm64-orangepi-5-max.img.xz
+На Orange Pi 5 Ultra рекомендуется установить Ubuntu 24.04.2 https://github.com/Joshua-Riek/ubuntu-rockchip/releases/download/v2.4.0/ubuntu-24.04-preinstalled-desktop-arm64-orangepi-5-max.img.xz
 
 # Подготовьте RPI
 Подключитесь к Orange Pi 5 Ultra через терминал хост машины по протоколу ssh (используйте свое имя устройства и свой ip адрес, если они отличаются от текущих).
 ```
 ssh -p 22 ab@192.168.0.121
 ```
-Установите последнюю версию 64-разрядной ОС Raspberry Pi с настольным компьютером и обновите систему.
+Обновите систему.
 ```
 sudo apt update
 sudo apt upgrade
@@ -28,7 +28,7 @@ sudo ./install_packages_target.sh
 ```
 Установите необходимые пакеты.
 ```
-sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev libx11-dev freetds-dev libsqlite3-dev libpq-dev libiodbc2-dev firebird-dev libxext-dev libxcb1 libxcb1-dev libx11-xcb1 libx11-xcb-dev libxcb-keysyms1 libxcb-keysyms1-dev libxcb-image0 libxcb-image0-dev libxcb-shm0 libxcb-shm0-dev libxcb-icccm4 libxcb-icccm4-dev libxcb-sync1 libxcb-sync-dev libxcb-render-util0 libxcb-render-util0-dev libxcb-xfixes0-dev libxrender-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-glx0-dev libxi-dev libdrm-dev libxcb-xinerama0 libxcb-xinerama0-dev libatspi2.0-dev libxcursor-dev libxcomposite-dev libxdamage-dev libxss-dev libxtst-dev libpci-dev libcap-dev libxrandr-dev libdirectfb-dev libaudio-dev libxkbcommon-x11-dev gdbserver
+sudo apt-get install libiodbc2-dev firebird-dev libxext-dev libxcb1 libxcb1-dev libx11-xcb1 libx11-xcb-dev libxcb-keysyms1 libxcb-keysyms1-dev libxcb-image0 libxcb-image0-dev libxcb-shm0 libxcb-shm0-dev libxcb-icccm4 libxcb-icccm4-dev libxcb-sync1 libxcb-sync-dev libxcb-render-util0 libxcb-render-util0-dev libxcb-xfixes0-dev libxrender-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-glx0-dev libxi-dev libdrm-dev libxcb-xinerama0 libxcb-xinerama0-dev libatspi2.0-dev libxcursor-dev libxcomposite-dev libxdamage-dev libxss-dev libxtst-dev libpci-dev libcap-dev libxrandr-dev libdirectfb-dev libaudio-dev libxkbcommon-x11-dev gdbserver
 ```
 Создайте папку для установки qt6.
 ```
@@ -256,8 +256,8 @@ cmake --build . --parallel 8
 cmake --install .
 ```
 Двоичные файлы будут находиться в $HOME/qt6/host
-### Сборка Qt6 для RPI
-скопируйте и вставьте несколько папок из rpi с помощью rsync через SSH. **Вам следует изменить следующие команды в соответствии с вашими потребностями.**
+### Сборка Qt6 для OrangePi
+скопируйте и вставьте несколько папок из OrangePi с помощью rsync через SSH. **Вам следует изменить следующие команды в соответствии с вашими потребностями.**
 ```
 cd ~
 rsync -avz --rsync-path="sudo rsync" ab@192.168.0.121:/usr/include rpi-sysroot/usr
