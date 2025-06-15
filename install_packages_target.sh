@@ -12,6 +12,7 @@ echo "--------------------------------------"
 sudo apt-get install -y libgl1-mesa-dev
 sudo apt-get install -y libglu1-mesa-dev
 sudo apt-get install -y libxcb-xinput-dev
+sudo apt-get install -y libxcb-keysyms1
 sudo apt-get install -y libxcb-keysyms1-dev
 sudo apt-get install -y libxkbcommon-dev
 sudo apt-get install -y libxkbcommon-x11-dev
@@ -24,6 +25,7 @@ sudo apt-get install -y libxi-dev
 sudo apt-get install -y libinput-dev
 sudo apt-get install -y libxcb-glx0-dev
 sudo apt-get install -y libxcb-icccm4-dev
+sudo apt-get install -y libxcb-image0
 sudo apt-get install -y libxcb-image0-dev
 sudo apt-get install -y libxcb-shm0-dev
 sudo apt-get install -y libxcb-util-dev
