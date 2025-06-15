@@ -8,7 +8,7 @@
 
 На Orange Pi 5 Ultra рекомендуется установить Ubuntu 24.04.2 https://github.com/Joshua-Riek/ubuntu-rockchip/releases/download/v2.4.0/ubuntu-24.04-preinstalled-desktop-arm64-orangepi-5-max.img.xz
 
-# Подготовьте RPI
+# Подготовьте OrangePi
 Подключитесь к Orange Pi 5 Ultra через терминал хост машины по протоколу ssh (используйте свое имя устройства и свой ip адрес, если они отличаются от текущих).
 ```
 ssh -p 22 ab@192.168.0.121
